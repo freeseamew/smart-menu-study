@@ -33,7 +33,7 @@ const typeDefs = gql`
   }
 
   extend type Query {
-    Orders(limit: Int): [Order]
+    orders(limit: Int): [Order]
   }
 
 `

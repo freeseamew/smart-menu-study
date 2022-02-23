@@ -93,9 +93,9 @@ const mutations = {
       `deleteItem Error: ${error}`;
     }
   },
-  async updateFile(_, {}) {
-    return;
-  },
+  // async updateFile(_, {}) {
+  //   return;
+  // },
 }
 
 export default mutations;

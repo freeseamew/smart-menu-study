@@ -18,10 +18,10 @@ import typeDefsOrder from '/imports/api/order/schemas';
   });
 
   const server = new ApolloServer({
-    playground: true,
+    playground: true, // 오류
     schema,
     context: '',
-    plugin: [
+    plugins: [
       ApolloServerPluginLandingPageGraphQLPlayground(),
     ]
   });

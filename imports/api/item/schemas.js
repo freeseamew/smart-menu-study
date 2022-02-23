@@ -33,15 +33,15 @@ const typeDefs = gql`
     deleteCategory(_id: ID): ID
     addItem(itemName: String, itemPrice: Int, itemImage: String, itemCategoryId: ID):  Item
     updateItem(_id: ID, itemName: String, itemPrice: Int, itemImage: String, itemCategoryId: ID): Item
-    deleteItem(_id: ID) ID
+    deleteItem(_id: ID): ID
     upLoadFile(file: Upload): File
   }
 
   type Query {
     categories: [Category]
-    item(_id: ID) Item
+    item(_id: ID): Item
     items(pageNumber: Int, search:String, itemCategoryId: ID): [Item]
-    itemPageCount(search: String, itemCategoryId: ID) Int
+    itemPageCount(search: String, itemCategoryId: ID): Int
   }
 `
 
