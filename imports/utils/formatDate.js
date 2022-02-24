@@ -7,7 +7,7 @@ const getCurrentDate = () => {
   const minutes = date.getMinutes();
   const seconds = date.getSeconds();
   const milliseconds = date.getMilliseconds();
-  return new Date(Date.UTC(year, month, hours, minutes, seconds, milliseconds));
+  return new Date(Date.UTC(year, month, today, hours, minutes, seconds, milliseconds)); 
 }
 
 export {

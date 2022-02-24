@@ -1,23 +1,23 @@
 import Orders from './collections';
-import getCurrentDate from '/imports/utils/formatDate.js';
+import { getCurrentDate } from '/imports/utils/formatDate.js';
 
 const queries = {
   async orders(_, args, context, info) {
     try {
       const result = await Orders.find({
         orderDate: {"$gte": new Date()}
-      }).fetch();
+      });
       return result;
     }
     catch(error) {
       throw `orders query Error: ${error}`;
     }
   }
-
 }
 
 const mutations = {
   async addOrder(_, { orderPriceSum, orderCount, orderItems}, {user}, info) {
+    
     const newDate = getCurrentDate();
 
     let orderValues = {

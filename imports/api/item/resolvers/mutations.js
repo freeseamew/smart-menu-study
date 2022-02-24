@@ -31,7 +31,7 @@ const mutations = {
       throw `updateCategory Error: ${error}`;
     }
   },
-  async deleteCategory(_, {id}) {
+  async deleteCategory(_, { _id }) { // 오류
     try {
       const result = await Categories.remove(_id);
       return result;
