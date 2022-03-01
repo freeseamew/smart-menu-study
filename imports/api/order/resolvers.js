@@ -1,5 +1,10 @@
 import Orders from './collections';
 import { getCurrentDate } from '/imports/utils/formatDate.js';
+import { PubSub, withFilter } from 'graphql-subscriptions';
+import { ORDER_ADDED, ADMIN } from '/imports/utils/constans';
+import { getUser } from 'meteor/apollo';
+
+const pubsub = new PubSub;
 
 const queries = {
   async orders(_, args, context, info) {
@@ -30,6 +35,10 @@ const mutations = {
 
     try {
       const result = Orders.insert(orderValues);
+
+      orderValues._id = result;
+      await pubsub.publish(ORDER_ADDED, {orderAdded: orderValues});
+
       return result;
     }
     catch(error) {
@@ -51,12 +60,29 @@ const mutations = {
       throw `checkOrder Update Error: ${error}`;
     }
   }
-
 }
+
+const subscriptions = {
+  orderAdded: {
+    // subscribe: () => {
+    //   return pubsub.asyncIterator(ORDER_ADDED);
+    // }
+    subscribe: withFilter(
+      () => pubsub.asyncIterator(ORDER_ADDED),
+      (payload, variables) => {
+        const getUserRole = await getUser(variables.authToken);
+        const checkRole = getUserRole.profile.role = ADMIN;
+        return checkRole;
+      }
+    )
+  }
+}
+
 
 const resolvers = {
   Query: queries,
   Mutation: mutations,
+  Subscription: subscriptions,
 }
 
 export default resolvers;

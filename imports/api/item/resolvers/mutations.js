@@ -2,9 +2,9 @@ import { Categories, Items } from '../collections';
 import { getCurrentDate } from '/imports/utils/formatDate';
 
 const mutations = {
-  async addCategory(_, { categoryname }) {
+  async addCategory(_, { categoryName }) {
     const categoryValue = {
-      categoryName: categoryname,
+      categoryName: categoryName,
     }
 
     try {
