@@ -69,7 +69,7 @@ const subscriptions = {
     // }
     subscribe: withFilter(
       () => pubsub.asyncIterator(ORDER_ADDED),
-      (payload, variables) => {
+      async (payload, variables) => {
         const getUserRole = await getUser(variables.authToken);
         const checkRole = getUserRole.profile.role = ADMIN;
         return checkRole;

@@ -4,15 +4,18 @@ import { WebApp } from 'meteor/webapp';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { execute, subscribe } from 'graphql';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { getUser } from 'meteor/apollo';
 
 import resolverItem from '/imports/api/item/resolvers';
 import typeDefsItem from '/imports/api/item/schemas';
 import resolverOrder from '/imports/api/order/resolvers';
 import typeDefsOrder from '/imports/api/order/schemas';
+import resolverAuth from '/imports/api/auth/resolvers';
+import typeDefsAuth from '/imports/api/auth/schemas';
 
 (async function(){
-  const typeDefs = [typeDefsItem, typeDefsOrder];
-  const resolvers = [resolverItem, resolverOrder];
+  const typeDefs = [typeDefsItem, typeDefsOrder, typeDefsAuth];
+  const resolvers = [resolverItem, resolverOrder, resolverAuth];
 
   const schema = makeExecutableSchema({
     typeDefs,
@@ -38,7 +41,10 @@ import typeDefsOrder from '/imports/api/order/schemas';
   const server = new ApolloServer({
     playground: true,
     schema,
-    context: '',
+    context: async ({req}) => ({
+      user: await getUser(req.headers.authorization),
+      userToken: req.headers.authorization,
+    }),
     plugins: [
       ApolloServerPluginLandingPageGraphQLPlayground(),
       {
