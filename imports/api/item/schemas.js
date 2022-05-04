@@ -34,7 +34,7 @@ const typeDefs = gql`
     addItem(itemName: String, itemPrice: Int, itemImage: String, itemCategoryId: ID):  Item
     updateItem(_id: ID, itemName: String, itemPrice: Int, itemImage: String, itemCategoryId: ID): Item
     deleteItem(_id: ID): ID
-    upLoadFile(file: Upload): File
+    uploadFile(file: Upload): File
   }
 
   type Query {

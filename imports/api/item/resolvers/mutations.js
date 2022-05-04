@@ -1,5 +1,6 @@
 import { Categories, Items } from '../collections';
 import { getCurrentDate } from '/imports/utils/formatDate';
+import processUpload from '/imports/utils/fileUpload';
 
 const mutations = {
   async addCategory(_, { categoryName }) {
@@ -93,9 +94,15 @@ const mutations = {
       `deleteItem Error: ${error}`;
     }
   },
-  // async updateFile(_, {}) {
-  //   return;
-  // },
+  async uploadFile(_, {file}) {
+    try {
+      const upload = await processUpload(file);
+      return upload;
+    }
+    catch(error) {
+      throw `upload file error: ${error}`;
+    }
+  }
 }
 
 export default mutations;

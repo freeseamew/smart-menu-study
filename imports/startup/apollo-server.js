@@ -5,6 +5,8 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-co
 import { execute, subscribe } from 'graphql';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { getUser } from 'meteor/apollo';
+import { graphqlUploadExpress } from 'graphql-upload';
+import express from 'express';
 
 import resolverItem from '/imports/api/item/resolvers';
 import typeDefsItem from '/imports/api/item/schemas';
@@ -60,6 +62,10 @@ import typeDefsAuth from '/imports/api/auth/schemas';
   });
 
   await server.start();
+
+  const app = express();
+  app.use(graphqlUploadExpress());
+  WebApp.connectHandlers.use('/graphql', app);
 
   server.applyMiddleware({
     app: WebApp.connectHandlers,

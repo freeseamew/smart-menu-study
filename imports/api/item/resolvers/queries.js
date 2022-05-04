@@ -46,6 +46,9 @@ const queries = {
     if(itemCategoryId === ALL) itemCategoryId = ''
     if(itemCategoryId) setFilters.itemCategoryId = itemCategoryId;
 
+    setOptions.limit = limit;
+    setOptions.skip = skip;
+
     setOptions.sort = {'createdAt': -1};
 
     try {
