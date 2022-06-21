@@ -43,6 +43,9 @@ import typeDefsAuth from '/imports/api/auth/schemas';
   const server = new ApolloServer({
     playground: true,
     schema,
+    // context: async({req}) => {
+    //   console.log(`req: ${JSON.stringify(req) }`)
+    // },
     context: async ({req}) => ({
       user: await getUser(req.headers.authorization),
       userToken: req.headers.authorization,

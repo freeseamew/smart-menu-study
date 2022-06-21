@@ -2,7 +2,8 @@
   import { query } from 'svelte-apollo';
   import { GET_ITEMS } from '/imports/ui/apollo/query';
   import Item from './item.svelte';
-  import { modalActiveItem, itemPage, itemPageLock, itemFormMode, itemCategorySelected, itemSearch } from '/imports/ui/stores';
+  import { modalActiveItem, itemPage, itemPageLock, itemFormMode, itemCategorySelected, itemSearch, isAdmin, itemMainLoading, itemPageLoading } from '/imports/ui/stores';
+  import ItemLoading from './itemLoading.svelte';
 
   let component;
   let elementScroll;
@@ -51,6 +52,8 @@
       },
     }).then((result) => {
       itemPageLock.set(false);
+      itemMainLoading.set(false);
+      itemPageLoading.set(false);
     });
   }
 
@@ -58,19 +61,24 @@
 
 <div class="row row-cols-4 g-4 pl-3 pr-3 pt-2 pb-4 list-bg-shadow" bind:this={component}>
   
-  {#if $items.loading}
-    <p>Loading</p>
+  {#if $items.loading || $itemMainLoading}
+    <ItemLoading />
   {:else}
-    <div class="col mb-2">
-      <span class="btn-add-modal-show" on:click={onOpenModalItemForm} >
-        <div class="card menu-add-box h-100 d-flex justify-content-center align-items-center">
-          <i class='bx bx-plus bx-md' ></i>
-        </div>
-      </span>
-    </div>                        
+    {#if $isAdmin}
+      <div class="col mb-2">
+        <span class="btn-add-modal-show" on:click={onOpenModalItemForm} >
+          <div class="card menu-add-box h-100 d-flex justify-content-center align-items-center">
+            <i class='bx bx-plus bx-md' ></i>
+          </div>
+        </span>
+      </div>                               
+    {/if}
     {#each $items.data.items as item, index}
        <Item item={item} />
-    {/each}     
+    {/each}
+    {#if $itemPageLoading}
+      <ItemLoading />
+    {/if}
   {/if}
   <!-- Loading-box start-->
 

@@ -8,7 +8,7 @@ Accounts.onCreateUser((options, user) => {
   }
   else {
     user.profile = options.profile ? options.profile : {};
-    user.profile = USER;
+    user.profile.role = USER;
   }
 
   return user;

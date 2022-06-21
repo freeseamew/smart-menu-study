@@ -64,7 +64,7 @@ const mutations = {
   },
   async updateItem(_, { _id, itemName, itemPrice, itemImage, itemCategoryId }) {
 
-    const itemValues = {
+    let itemValues = {
       itemName: itemName,
       itemPrice: itemPrice,
       itemImage: itemImage,

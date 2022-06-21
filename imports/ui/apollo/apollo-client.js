@@ -1,11 +1,12 @@
-import { ApolloClient, InMemoryCache, split } from '@apollo/client/core';
+import { ApolloClient, InMemoryCache, split, defaultDataIdFromObject } from '@apollo/client/core';
 import { HttpLink, ApolloLink, from } from '@apollo/client/core';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { ALL } from '../../utils/constans';
-import { itemPage } from '/imports/ui/stores';
+import { itemPage, authToken } from '/imports/ui/stores';
 import { get } from 'svelte/store';
 import { createUploadLink } from 'apollo-upload-client';
+import Shortid from 'shortid';
 
 // const httpLink = new HttpLink({
 //   uri: "http://localhost:3000/graphql",
@@ -21,6 +22,17 @@ const wsLink = new WebSocketLink({
 });
 
 const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem('Meteor.loginToken');
+  
+  if(!token) authToken.checkToken();
+
+  operation.setContext(() => {
+    return {
+      headers: {
+        authorization: token ? token : '',
+      }
+    }
+  });
   return forward(operation);
 });
 
@@ -67,6 +79,12 @@ const cache = new InMemoryCache({
           }
         }
       }
+    }
+  },
+  dataIdFromObject(responseObject) {
+    switch (responseObject.__typename) {
+      case 'OrderItem': return `OrderItem:${Shortid.generate()}`;
+      default: return defaultDataIdFromObject(responseObject);
     }
   }
 });

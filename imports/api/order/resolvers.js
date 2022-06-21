@@ -54,7 +54,9 @@ const mutations = {
       await Orders.update(
         {_id: _id},
         {$set: changeOrderState},
-      )
+      );
+
+      return _id;
     }
     catch(error) {
       throw `checkOrder Update Error: ${error}`;
@@ -71,7 +73,7 @@ const subscriptions = {
       () => pubsub.asyncIterator(ORDER_ADDED),
       async (payload, variables) => {
         const getUserRole = await getUser(variables.authToken);
-        const checkRole = getUserRole.profile.role = ADMIN;
+        const checkRole = getUserRole.profile.role === ADMIN;
         return checkRole;
       }
     )

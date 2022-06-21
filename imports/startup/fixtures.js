@@ -7,7 +7,7 @@ Meteor.setTimeout(() => {
 
     const userValues = {
       email: 'admin@admin.com',
-      password: '1234',
+      password: process.env.ADMIN_PASSWORD,
     }
 
     Accounts.createUser(userValues);

@@ -1,5 +1,5 @@
 <script>
-  import { itemSearch, itemPage } from '/imports/ui/stores';
+  import { itemSearch, itemPage, itemMainLoading } from '/imports/ui/stores';
 
   let itemSearchForm;
 
@@ -9,6 +9,7 @@
     if(keyCode === 13) {
       itemSearch.set(itemSearchForm);
       itemPage.resetPage();
+      itemMainLoading.set(true);
     }
   }
 

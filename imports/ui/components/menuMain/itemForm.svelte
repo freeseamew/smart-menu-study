@@ -4,6 +4,7 @@
   import { query, mutation } from 'svelte-apollo';
   import { ADD_ITEM, GET_CATEGORIES, GET_ITEMS, UPDATE_ITEM, DELETE_ITEM, ITEM_FIELDS, UPLOAD_FILE } from '/imports/ui/apollo/query';
   import { ADD_MODE, EDIT_MODE } from '/imports/utils/constans.js';
+  import { extractErrors, itemValidateSchema } from '/imports/utils/validates';
 
   const items = query(GET_ITEMS);
   const categories = query(GET_CATEGORIES);
@@ -12,8 +13,15 @@
   const deleteItem = mutation(DELETE_ITEM);
   const uploadFile = mutation(UPLOAD_FILE);
 
+  let errors = {};
+
   $: {
-    if($itemFormMode === ADD_MODE) itemFormValue.resetForm();
+    if($itemFormMode === ADD_MODE) {
+      itemFormValue.resetForm();
+      errors = {};
+    }
+    
+    if($itemFormMode === EDIT_MODE) errors = {};
   }
 
   const onAddItem = async () => {
@@ -59,6 +67,7 @@
   const clearItemForm = () => {
     itemFormValue.resetForm();
     modalActiveItem.closeModal();
+    errors = {};
     // items.refetch();
   }
 
@@ -140,6 +149,26 @@
     }
   }
 
+  const onSubmitAddItem = async () => {
+    try {
+      await itemValidateSchema.validate($itemFormValue, {abortEarly: false});
+      onAddItem();
+    }
+    catch(error) {
+      errors = extractErrors(error);
+    }
+  }
+
+  const onSubmitUpdateCategory = async () => {
+    try {
+      await itemValidateSchema.validate($itemFormValue, {abortEarly: false});
+      onUpdateItem();
+    }
+    catch(error) {
+      errors = extractErrors(error);
+    }
+  }
+
 </script>
 <Modal bind:modalActive={$modalActiveItem}>
   <!-- slot modal-header start -->
@@ -150,25 +179,37 @@
   <div class="modal-body" slot="modal-body" >
     <div class="mb-3 ">
       <label for="recipient-name" class="col-form-label">메뉴 이름:</label>
-      <input type="text" class="form-control" id="recipient-name" bind:value={$itemFormValue.itemName} >
+      <input type="text" class="form-control" id="recipient-name" bind:value={$itemFormValue.itemName} class:inputError={errors.itemName}>
+      {#if errors.itemName}
+        <span class="invalid-feedback was-validated">{errors.itemName}</span>
+      {/if}
       <!-- <div class="invalid-feedback was-validated">이름을 입력해 주세요.</div> -->
     </div>
     <div class="mb-3">
       <label for="recipient-name" class="col-form-label">메뉴 카테고리:</label>
-      <select name="menu-cateogry-select" class="form-select" bind:value={$itemFormValue.itemCategoryId} >
+      <select name="menu-cateogry-select" class="form-select" bind:value={$itemFormValue.itemCategoryId} class:inputError={errors.itemCategoryId} >
         <option value="">카테고리 선택</option>
         {#each $categories.data.categories as category (category._id)}
           <option value={category._id}>{category.categoryName}</option>
         {/each}
       </select>
+      {#if errors.itemCategoryId}
+        <span class="invalid-feedback was-validated">{errors.itemCategoryId}</span>
+      {/if}      
     </div>            
     <div class="mb-3">
       <label for="message-text" class="col-form-label">메뉴 가격:</label>
-      <input type="text" class="form-control" id="recipient-name" bind:value={$itemFormValue.itemPrice} >
+      <input type="text" class="form-control" id="recipient-name" bind:value={$itemFormValue.itemPrice} class:inputError={errors.itemPrice} >
+      {#if errors.itemPrice}
+        <span class="invalid-feedback was-validated">{errors.itemPrice}</span>
+      {/if}      
     </div>
     <div class="mb-3">
       <label for="message-text" class="col-form-label">메뉴 이미지:</label>
-      <input type="file" class="form-control" id="recipient-name" on:change={onUploadFile} >
+      <input type="file" class="form-control" id="recipient-name" on:change={onUploadFile} class:inputError={errors.itemImage} >
+      {#if errors.itemImage}
+        <span class="invalid-feedback was-validated">{errors.itemImage}</span>
+      {/if}      
     </div>    
     {#if $itemFormValue.itemImage}
       <div class="mb-3">
@@ -181,11 +222,11 @@
   <!-- slot modal-footer start -->          
   <div class="modal-footer d-flex flex-column align-items-stretch" slot="modal-footer" >
     {#if $itemFormMode === ADD_MODE}
-      <button type="button" class="btn btn-primary pt-3 pb-3" on:click={onAddItem} >메뉴 추가</button>
+      <button type="button" class="btn btn-primary pt-3 pb-3" on:click={onSubmitAddItem} >메뉴 추가</button>
     {:else if $itemFormMode === EDIT_MODE}
       <div class="row item-bottom">
         <div class="col">
-          <button type="button" class="btn btn-primary pt-3 pb-3" on:click={onUpdateItem} >메뉴 수정</button>        
+          <button type="button" class="btn btn-primary pt-3 pb-3" on:click={onSubmitUpdateCategory} >메뉴 수정</button>        
         </div>
         <div class="col">
           <button type="button" class="btn btn-danger pt-3 pb-3" on:click={onDeleteItem} >메뉴 삭제</button>        

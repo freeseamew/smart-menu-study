@@ -52,6 +52,7 @@ const queries = {
     setOptions.sort = {'createdAt': -1};
 
     try {
+      await Meteor._sleepForMs(1000);
       const result = await Items.find(setFilters, setOptions);
       return result;
     }

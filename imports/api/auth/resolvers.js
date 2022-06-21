@@ -22,12 +22,14 @@ const mutations = {
     return { authToken: authToken.token, userId: authenticatingUser._id};
   },
   async logout(_, {}, {user, userToken}) {
+
+    console.log(`user: ${user._id}`)
+    console.log(`userToken: ${userToken}`)
     if(!user || !userToken) throw 'Not Login';
 
     try {
       const hashedToken = await Accounts._hashLoginToken(userToken);
-
-      await Accounts.destroyToken(user, {token: hashedToken});
+      await Accounts.destroyToken(user._id, hashedToken);
       return true;
     }
     catch(error) {
@@ -51,7 +53,7 @@ const mutations = {
   async updateUserRole(_, {_id, role}, { user }) {
     try {
       checkAuth(user, ADMIN);
-      if(user._id == _id) {
+      if(user._id !== _id) {
         const result = await Meteor.users.update(
           {_id: _id},
           {$set: {'profile.role': role}}
@@ -78,7 +80,8 @@ const queries = {
       throw error.message;
     }
   },
-  me(_, args, { user }, info) {
+  me(_, args, {user}, info) {
+    console.log(`info: ${user}`)
     let userValue = {
       _id: user._id,
       emails: [

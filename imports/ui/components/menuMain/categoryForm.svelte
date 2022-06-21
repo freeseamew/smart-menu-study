@@ -3,6 +3,8 @@
   import { modalActiveCategory } from '../../stores';
   import { GET_CATEGORIES, ADD_CATEGORY, DELETE_CATEGORY, UPDATE_CATEGORY } from '../../apollo/query';
   import { query, mutation } from 'svelte-apollo';
+  import { categoryValidateSchema } from '/imports/utils/validates';
+  import notyf from '/imports/utils/notyfConfig';
 
   const categories = query(GET_CATEGORIES);
   const addCategory = mutation(ADD_CATEGORY);
@@ -66,6 +68,28 @@
     }
   }
 
+  const onSubmitAddCategory = async () => {
+    try {
+      await categoryValidateSchema.validate(addValues, {abortEarly: false});
+      onAddCategory();
+    }
+    catch(error) {
+      // alert(error.message);
+      notyf.error(error.message);
+    }
+  }
+
+  const onSubmitUpdateCategory = async () => {
+    try {
+      await categoryValidateSchema.validate(updateValues, {abortEarly: false});
+      onUpdateCategory();
+    }
+    catch(error) {
+      // alert(error.message);
+      notyf.error(error.message);
+    }
+  }
+
 </script>
 
 <Modal bind:modalActive={$modalActiveCategory}>
@@ -94,7 +118,7 @@
             </li>           
           {:else}
             <li class="mb-3 d-flex justify-content-between">
-              <input type="text" class="form-control border-line" bind:value={updateValues.categoryName} on:focusout={onUpdateCategory}>
+              <input type="text" class="form-control border-line" bind:value={updateValues.categoryName} on:focusout={onSubmitUpdateCategory}>
             </li>
           {/if}
         {/each}
@@ -107,7 +131,7 @@
   <div class="modal-footer d-flex flex-column align-items-stretch" slot="modal-footer">
     <div class="input-group">
       <input type="text" class="form-control border-line" bind:value={addValues.categoryName}>
-      <button class="btn btn-primary" on:click={onAddCategory}>등록</button>
+      <button class="btn btn-primary" on:click={onSubmitAddCategory}>등록</button>
     </div>
   </div>     
   <!-- slot modal-footer end -->
