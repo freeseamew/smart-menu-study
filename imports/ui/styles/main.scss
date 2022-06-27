@@ -563,6 +563,11 @@ ul.category-list {
   overflow: auto; /* Enable scroll if needed */
   // background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.modal-bg::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
 }
 .modal-bg.show {
   display: block;
