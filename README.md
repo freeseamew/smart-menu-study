@@ -18,9 +18,9 @@ DISABLE_WEBSOCKETS=true meteor run
 
 ## **build**
 
-: 서버에서 실행될 코드 모음 만들기
+: 서버에서 실행될 코드 모음 만들기.
 
-- os와 함께 meteor 에서 지원하고 있는 nodejs 버전 확인이 필요
+- os와 함께 meteor 에서 지원하고 있는 nodejs 버전 확인이 필요.
 - meteor 현재 지원 nodejs 버전 확인([https://docs.meteor.com/changelog.html](https://docs.meteor.com/changelog.html))
 
 1) nvm 설치 
@@ -138,19 +138,19 @@ os.windows.x86_64
 
 os버전에 따라서 설치 방법이 다를 수 있음을 참고 바람.
 
-1) public key를 가져오기
+1) public key를 가져오기.
 
 ```html
 wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
 ```
 
-2) 설치를 MongoDB를 위한 List 파일을 만들기
+2) 설치를 MongoDB를 위한 List 파일을 만들기.
 
 ```html
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 ```
 
-3) 로컬 패키지 데이터베이스 불러오기
+3) 로컬 패키지 데이터베이스 불러오기.
 
 ```html
 sudo apt-get update
@@ -177,10 +177,10 @@ init - System V Init (service) 사용
 6) MongoDB 실행하기
 
 ```html
-// MongoDB 서버 시작
+// MongoDB 서버 시작.
 systemctl start mongod
 
-// 명령어를 이용해 설공적 실행 확인
+// 명령어를 이용해 설공적 실행 확인.
 sudo systemctl status mongod
 
 //필요에 따라 다음 명령어를 실행하여 MongoDB가 시스템 재부팅 후 시작되도록 설정할 수 있음.
@@ -226,9 +226,9 @@ su 유저명
 
 ## 서버에 **nodejs 설치**
 
-서버역시도 nvm을 이용해 필요한 nodejs 버전을 맞추는 것이 좋음
+서버역시도 nvm을 이용해 필요한 nodejs 버전을 맞추는 것이 좋음.
 
-설치는 개발os와 마찬가지로 다음 nvm 사이트를 참고하여 설치
+설치는 개발os와 마찬가지로 다음 nvm 사이트를 참고하여 설치.
 
 [https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm)
 
@@ -248,7 +248,7 @@ nvm 등록
 bash: source ~/.bashrc
 ```
 
-다음으로 다음 명령어를 이용해 원하는 노드버전을 설치하고 사용 선택
+다음으로 다음 명령어를 이용해 원하는 노드버전을 설치하고 사용 선택.
 
 ```html
 // node 설치
