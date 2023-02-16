@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache, split, defaultDataIdFromObject } from '@ap
 import { HttpLink, ApolloLink, from } from '@apollo/client/core';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { ALL } from '../../utils/constans';
+import { ALL } from '../../utils/constants';
 import { itemPage, authToken } from '/imports/ui/stores';
 import { get } from 'svelte/store';
 import { createUploadLink } from 'apollo-upload-client';

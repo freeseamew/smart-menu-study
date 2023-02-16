@@ -2,7 +2,7 @@
   import { query, mutation } from 'svelte-apollo';
   import { GET_USERS, UPDATE_USER_ROLE } from '/imports/ui/apollo/query';
   import { auth } from '/imports/ui/stores';
-  import { ADMIN, USER } from '/imports/utils/constans';
+  import { ADMIN, USER } from '/imports/utils/constants';
   import { router } from 'tinro/cmp/index.js';
 
   const users = query(GET_USERS);

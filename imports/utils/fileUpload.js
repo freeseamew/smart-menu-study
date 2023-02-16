@@ -1,6 +1,6 @@
 import fs, { createWriteStream } from 'fs-extra';
 import shortid from 'shortid';
-import { FILE_LOCATION } from '/imports/utils/constans';
+import { FILE_LOCATION } from '/imports/utils/constants';
 
 const getFilePath = () => {
   const d = new Date();

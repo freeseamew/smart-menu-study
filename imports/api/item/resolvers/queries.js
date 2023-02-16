@@ -1,5 +1,5 @@
 import { Categories, Items } from '../collections';
-import { ALL } from '/imports/utils/constans';
+import { ALL } from '/imports/utils/constants';
 
 const pageSize = 15;
 

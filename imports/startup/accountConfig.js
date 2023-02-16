@@ -1,5 +1,5 @@
 import { Accounts } from 'meteor/accounts-base';
-import { USER, ADMIN } from '/imports/utils/constans';
+import { USER, ADMIN } from '/imports/utils/constants';
 
 Accounts.onCreateUser((options, user) => {
   if(options.email === 'admin@admin.com') {

@@ -1,7 +1,7 @@
 import Orders from './collections';
 import { getCurrentDate } from '/imports/utils/formatDate.js';
 import { PubSub, withFilter } from 'graphql-subscriptions';
-import { ORDER_ADDED, ADMIN } from '/imports/utils/constans';
+import { ORDER_ADDED, ADMIN } from '/imports/utils/constants';
 import { getUser } from 'meteor/apollo';
 
 const pubsub = new PubSub;

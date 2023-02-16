@@ -1,5 +1,5 @@
 import fs, {createReadStream, existsSync} from 'fs-extra';
-import { FILE_LOCATION } from '/imports/utils/constans';
+import { FILE_LOCATION } from '/imports/utils/constants';
 
 WebApp.connectHandlers.use('/images', (req, res, next) => {
   const storagePath = FILE_LOCATION;

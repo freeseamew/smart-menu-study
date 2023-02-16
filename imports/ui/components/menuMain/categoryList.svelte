@@ -2,7 +2,7 @@
   import { query } from 'svelte-apollo';
   import { GET_CATEGORIES } from '../../apollo/query.js';
   import { modalActiveCategory, itemCategorySelected, isAdmin, itemMainLoading } from '../../stores';
-  import { ALL } from '/imports/utils/constans.js';
+  import { ALL } from '/imports/utils/constants.js';
 
   const categories = query(GET_CATEGORIES);
 

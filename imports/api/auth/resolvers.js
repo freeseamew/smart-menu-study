@@ -1,5 +1,5 @@
 import { Accounts } from 'meteor/accounts-base';
-import { ADMIN } from '/imports/utils/constans';
+import { ADMIN } from '/imports/utils/constants';
 import checkAuth from '/imports/api/auth/checkAuth.js';
 
 const mutations = {

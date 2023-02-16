@@ -3,7 +3,7 @@
   import { modalActiveItem, itemFormValue, itemFormMode, itemCategorySelected } from '../../stores';
   import { query, mutation } from 'svelte-apollo';
   import { ADD_ITEM, GET_CATEGORIES, GET_ITEMS, UPDATE_ITEM, DELETE_ITEM, ITEM_FIELDS, UPLOAD_FILE } from '/imports/ui/apollo/query';
-  import { ADD_MODE, EDIT_MODE } from '/imports/utils/constans.js';
+  import { ADD_MODE, EDIT_MODE } from '/imports/utils/constants.js';
   import { extractErrors, itemValidateSchema } from '/imports/utils/validates';
 
   const items = query(GET_ITEMS);
