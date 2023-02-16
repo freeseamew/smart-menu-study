@@ -5,7 +5,7 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "@apollo/client": "^3.6.0",
+    "@apollo/client": "^3.7.3",
     "@babel/runtime": "^7.15.4",
     "apollo-server": "^3.6.3",
     "apollo-server-express": "^3.6.3",

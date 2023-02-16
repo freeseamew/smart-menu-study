@@ -22,7 +22,6 @@
         <!-- <a href="#null" class="d-flex align-items-center" class:disableClick={$itemMainLoading} on:click={() => onSelectCategory(ALL)} >모두보기</a>  -->
         <a href="#null" class="d-flex align-items-center" on:click={() => onSelectCategory(ALL)} >모두보기</a> 
       {/if}
-      
     </li>
     {#if $categories.loading}
       <li>

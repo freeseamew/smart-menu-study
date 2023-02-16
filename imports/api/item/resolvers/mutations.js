@@ -32,7 +32,7 @@ const mutations = {
       throw `updateCategory Error: ${error}`;
     }
   },
-  async deleteCategory(_, { _id }) { // 오류
+  async deleteCategory(_, { _id }) {
     try {
       const result = await Categories.remove(_id);
       return result;
@@ -73,7 +73,7 @@ const mutations = {
 
     try {
       await Items.update(
-        {_id, _id},
+        {_id: _id},
         {$set: itemValues},
       )
 
@@ -91,7 +91,7 @@ const mutations = {
       return _id;
     }
     catch(error) {
-      `deleteItem Error: ${error}`;
+      throw `deleteItem Error: ${error}`;
     }
   },
   async uploadFile(_, {file}) {
