@@ -1,6 +1,8 @@
 import { ApolloClient, InMemoryCache, split, defaultDataIdFromObject } from '@apollo/client/core';
 import { HttpLink, ApolloLink, from } from '@apollo/client/core';
-import { WebSocketLink } from '@apollo/client/link/ws';
+// import { WebSocketLink } from '@apollo/client/link/ws';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { ALL } from '../../utils/constants';
 import { itemPage, authToken } from '/imports/ui/stores';
@@ -17,9 +19,13 @@ const uploadLink = createUploadLink({
   credentials: 'same-origin',
 })
 
-const wsLink = new WebSocketLink({
-  uri: "ws://localhost:3000/graphql",
-});
+// const wsLink = new WebSocketLink({
+//   uri: "ws://localhost:3000/graphql",
+// });
+
+const wsLink = new GraphQLWsLink(createClient({
+  url: 'ws://localhost:3000/graphql',
+}));
 
 const authLink = new ApolloLink((operation, forward) => {
   const token = localStorage.getItem('Meteor.loginToken');
