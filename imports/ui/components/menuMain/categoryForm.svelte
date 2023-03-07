@@ -20,9 +20,9 @@
     categoryName: '',
   }
 
-  const onAddCategory = () => {
+  const onAddCategory = async () => {
     try {
-      addCategory({variables: addValues});
+      await addCategory({variables: addValues});
       clearCategoryForm();
     }
     catch(error) {

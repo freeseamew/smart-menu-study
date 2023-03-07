@@ -10,12 +10,16 @@
 
   let errors = {}
 
+  $: { // 새로 추가된 내용으로 모달 창을 닫았다 열었을 때 오류메시지 남아있는 것 해결
+    if($modalActiveComplateOrder) errors={}
+  }
+  
   const onComplateOrder = async () => {
     try {
       await addOrder({variables: $orders});
       modalActiveComplateOrder.set(false);
       orders.resetOrder();
-
+      
       // alert('주문이 완료되었습니다.');
       notyf.success('주문이 완료되었습니다. ');
     }

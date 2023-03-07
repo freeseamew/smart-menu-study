@@ -31,7 +31,7 @@ export const loginValidateSchema = yup.object().shape({
 export const registerValidateSchema = yup.object().shape({
   email: yup.string().required('이메일을 입력해 주세요.').email('이메일 형식이 잘 못 되었습니다. '),
   pwd: yup.string().required('비밀번호를 입력해 주세요.'),
-  pwdConfirm: yup.string().required('비밀본호 확인을 입력해 주세요.')
+  pwdConfirm: yup.string().required('비밀번호 확인을 입력해 주세요.')
     .oneOf([yup.ref('pwd'), null], '패스워드와 패스워드 확인이 일치하지 않습니다.' ).label('패스워드확인'),
 });
 

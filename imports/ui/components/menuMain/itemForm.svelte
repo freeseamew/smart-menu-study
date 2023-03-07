@@ -159,7 +159,7 @@
     }
   }
 
-  const onSubmitUpdateCategory = async () => {
+  const onSubmitUpdateItem = async () => {
     try {
       await itemValidateSchema.validate($itemFormValue, {abortEarly: false});
       onUpdateItem();
@@ -226,7 +226,7 @@
     {:else if $itemFormMode === EDIT_MODE}
       <div class="row item-bottom">
         <div class="col">
-          <button type="button" class="btn btn-primary pt-3 pb-3" on:click={onSubmitUpdateCategory} >메뉴 수정</button>        
+          <button type="button" class="btn btn-primary pt-3 pb-3" on:click={onSubmitUpdateItem} >메뉴 수정</button>        
         </div>
         <div class="col">
           <button type="button" class="btn btn-danger pt-3 pb-3" on:click={onDeleteItem} >메뉴 삭제</button>        

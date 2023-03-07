@@ -18,7 +18,7 @@
       const newOrder = subscriptionData.data.orderAdded;
 
       // alert(`주문이 추가 되었습니다. ${newOrder.orderDate}`);
-      notyf.success(`주문이 추가 되었습니다. ${newOrder.orderDate}`);
+      notyf.success(`주문이 추가 되었습니다. </br> ${newOrder.orderDate}`);
 
       return {
         orders: [

@@ -17,9 +17,9 @@
         <p class="price-sum">{item.itemPriceSum}</p>
       </div>
       <div class="order-btn-box d-flex justify-content-end ">
-        <button class="btn btn-ui mr-1"><i class='bx bx-plus' on:click={() => onIncrementOrder(item)} ></i></button>
+        <button class="btn btn-ui mr-1" on:click={() => onIncrementOrder(item)} ><i class='bx bx-plus' ></i></button>
         <input type="text" class="form-control border-line" bind:value={item.itemCount} />
-        <button class="btn btn-ui ml-1"><i class='bx bx-minus' on:click={() => onDecrementOrder(item)}></i></button>
+        <button class="btn btn-ui ml-1" on:click={() => onDecrementOrder(item)}><i class='bx bx-minus' ></i></button>
       </div>
     </li>
   {/each}
