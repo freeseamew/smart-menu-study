@@ -2,5 +2,6 @@ DISABLE_WEBSOCKETS=true meteor run
 
 or port를 임의로 설정할때는 아래로 시작
 
-DISABLE_WEBSOCKETS=true meteor run --port 3010
+DISABLE_WEBSOCKETS=true meteor run --port 3000
 
+// 참고로 포트를 변경하면 imports/ui/apollo/apollo-client.js 의 각종 포트도 변경해야함.

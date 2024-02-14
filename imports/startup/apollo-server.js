@@ -1,15 +1,15 @@
-import { ApolloServer } from 'apollo-server-express';
-import { makeExecutableSchema } from '@graphql-tools/schema';
+import { ApolloServer } from '@apollo/server';
+import express from 'express';
+import { expressMiddleware } from '@apollo/server/express4'
+import cors from 'cors';
+import { json } from 'body-parser';
 import { WebApp } from 'meteor/webapp';
-import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
-import { execute, subscribe } from 'graphql';
-// import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
-
 import { getUser } from 'meteor/apollo';
-import { graphqlUploadExpress } from 'graphql-upload';
-import express from 'express';
+import graphqlUploadExpress from "graphql-upload/graphqlUploadExpress.mjs";
+// import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
 
 import resolverItem from '/imports/api/item/resolvers';
 import typeDefsItem from '/imports/api/item/schemas';
@@ -18,7 +18,8 @@ import typeDefsOrder from '/imports/api/order/schemas';
 import resolverAuth from '/imports/api/auth/resolvers';
 import typeDefsAuth from '/imports/api/auth/schemas';
 
-(async function(){
+(async function() {
+  
   const typeDefs = [typeDefsItem, typeDefsOrder, typeDefsAuth];
   const resolvers = [resolverItem, resolverOrder, resolverAuth];
 
@@ -45,40 +46,15 @@ import typeDefsAuth from '/imports/api/auth/schemas';
   
   const serverCleanup = useServer({schema}, wsServer);    
 
-  // const subscriptionServer = SubscriptionServer.create({
-  //   schema,
-  //   execute,
-  //   subscribe,
-  //   onConnect: async(connectionParams, webSocket, context) => {
-  //     console.log(`Subscription clent connected using new SubscriptionServer`);
-  //   },
-  //   onDisconnect: async(webSocket, context) => {
-  //     console.log(`Subscription client disconnected`);
-  //   },
-  // },    
-  // {
-  //   server: WebApp.httpServer,
-  //   path: '/graphql'
-  // });
+  const app = express();
 
   const server = new ApolloServer({
-    playground: true,
     schema,
-    // context: async({req}) => {
-    //   console.log(`req: ${JSON.stringify(req) }`)
-    // },
-    context: async ({req}) => ({
-      user: await getUser(req.headers.authorization),
-      userToken: req.headers.authorization,
-    }),
-    plugins: [
-      ApolloServerPluginLandingPageGraphQLPlayground(),
+    plugins:[
+      // ApolloServerPluginLandingPageDisabled(),
       {
         async serverWillStart() {
           return {
-            // async drainServer() {
-            //   subscriptionServer.close();
-            // }
             async drainServer() {
               await serverCleanup.dispose();
             },            
@@ -90,14 +66,20 @@ import typeDefsAuth from '/imports/api/auth/schemas';
 
   await server.start();
 
-  const app = express();
-  app.use(graphqlUploadExpress());
-  WebApp.connectHandlers.use('/graphql', app);
-
-  server.applyMiddleware({
-    app: WebApp.connectHandlers,
-    cors: true,
-    path: '/graphql',
-  });
-
+  app.use(
+    json(),
+    graphqlUploadExpress(),
+    cors(),
+    expressMiddleware(server, {
+      context: async ({req}) => ({
+        user: await getUser(req.headers.authorization),
+        userToken: req.headers.authorization,        
+      })
+    })
+  );
+   
+  WebApp.connectHandlers.use(
+    '/graphql', 
+    app,    
+  );
 })();

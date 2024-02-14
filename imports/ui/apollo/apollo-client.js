@@ -1,5 +1,4 @@
-import { ApolloClient, InMemoryCache, split, defaultDataIdFromObject } from '@apollo/client/core';
-import { HttpLink, ApolloLink, from } from '@apollo/client/core';
+import { ApolloClient, InMemoryCache, split, HttpLink, ApolloLink, from,defaultDataIdFromObject } from '@apollo/client/core';
 // import { WebSocketLink } from '@apollo/client/link/ws';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
@@ -7,7 +6,8 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { ALL } from '../../utils/constants';
 import { itemPage, authToken } from '/imports/ui/stores';
 import { get } from 'svelte/store';
-import { createUploadLink } from 'apollo-upload-client';
+// import { createUploadLink } from 'apollo-upload-client';
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 import Shortid from 'shortid';
 
 // const httpLink = new HttpLink({
@@ -17,6 +17,7 @@ import Shortid from 'shortid';
 const uploadLink = createUploadLink({
   uri: 'http://localhost:3000/graphql',
   credentials: 'same-origin',
+  headers: {'Apollo-Require-Preflight': 'true'},
 })
 
 // const wsLink = new WebSocketLink({
